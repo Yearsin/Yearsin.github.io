@@ -1,10 +1,10 @@
 ---
-title: vuex
+title: Vuex
 date: 
 tags:
-- vue
+- Vue
 categories: 
-- web前端
+- Vue
 ---
 ## 初步认识
 > 你理或者不理她都在那里管理所有组件状态的贴心共享小仓库，直到有天你对她有了好奇心。
@@ -13,7 +13,8 @@ categories:
 
  举个栗子：  
  一个Vue的根实例下面有一个根组件名为**App.vue**, 它下面有两个子组件**A.vue**和**B.vue**, **App.vue**想要与**A.vue**或者**B.vue**通讯可以通过props传值的方式, 但是如果A.vue和B.vue之间的通讯就很麻烦了, 他们需要共有的父组件通过自定义事件进行实现, A组件想要和B组件通讯往往是这样的：
-![](../../public/images/vuex-img-1.png)
+ 
+![](https://fsfdsfdsf-1258920069.cos.ap-shanghai.myqcloud.com/vuex/vuex-img-1.png?q-sign-algorithm=sha1&q-ak=AKIDpLxZPzf7y4A6u1fxEysUVd3e9geasEMg&q-sign-time=1553774592;1553776392&q-key-time=1553774592;1553776392&q-header-list=&q-url-param-list=&q-signature=3f3715eb40b94a8948be8ef62bac9e474609bf03&x-cos-security-token=3cf63df813749be818a86e7b1691c1edc2f8b75f10001)
  - A组件说: "报告老大, 能否帮我托个信给小弟B" => dispatch一个事件给App
  - App老大说: "包在我身上, 它需要监听A组件的dispatch的时间, 同时需要broadcast一个事件给B组件"
  - B小弟说: "信息已收到", 它需要on监听App组件分发的事件
@@ -41,8 +42,8 @@ categories:
 
 ## 地上摩擦  
 用代码示例来讲话，我使用 **vue-cli** 初始化了一个demo，**[master分支](https://github.com/Yearsin/vue-demo)**进行下载，node.js版本8.11.3。
-![](../../public/images/vuex-img-2.png)
-![](../../public/images/vuex-img-3.png)
+![](https://fsfdsfdsf-1258920069.cos.ap-shanghai.myqcloud.com/vuex/vuex-img-2.png?q-sign-algorithm=sha1&q-ak=AKIDgSSA2s0tyUx4R3XFz2vtlcRTr0FQu7v1&q-sign-time=1553774636;1553776436&q-key-time=1553774636;1553776436&q-header-list=&q-url-param-list=&q-signature=5a1dcfd25c560ea3d49fb2a68f7600d7089bc889&x-cos-security-token=f5ae560257fa667ecd18535ae6a566b4ff294c4610001)
+![](https://fsfdsfdsf-1258920069.cos.ap-shanghai.myqcloud.com/vuex/vuex-img-3.png?q-sign-algorithm=sha1&q-ak=AKIDattCTBZMmUwY6LPxDTGnekKZIpLAEwXS&q-sign-time=1553774658;1553776458&q-key-time=1553774658;1553776458&q-header-list=&q-url-param-list=&q-signature=09c33ce18d703755d453bf5f044861d5655a346c&x-cos-security-token=decd0e9e9d5653586ed784c4fcbdc20c5d40debd10001)
  
 - State:
 我把她看做是所有组件的 **data**，用于保存所有组件公共的数据。
