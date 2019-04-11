@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Vue,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="初步认识 你理或者不理她都在那里管理所有组件状态的贴心共享小仓库，直到有天你对她有了好奇心。   当组件之间的通信过于繁琐、耦性太强的时候使用。     举个栗子： 一个Vue的根实例下面有一个根组件名为App.vue, 它下面有两个子组件A.vue和B.vue, App.vue想要与A.vue或者B.vue通讯可以通过props传值的方式, 但是如果A.vue和B.vue之间的通讯就很麻烦了,">
+<meta name="keywords" content="Vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vuex">
+<meta property="og:url" content="http://yoursite.com/2019/04/03/vuex/index.html">
+<meta property="og:site_name" content="岁月集">
+<meta property="og:description" content="初步认识 你理或者不理她都在那里管理所有组件状态的贴心共享小仓库，直到有天你对她有了好奇心。   当组件之间的通信过于繁琐、耦性太强的时候使用。     举个栗子： 一个Vue的根实例下面有一个根组件名为App.vue, 它下面有两个子组件A.vue和B.vue, App.vue想要与A.vue或者B.vue通讯可以通过props传值的方式, 但是如果A.vue和B.vue之间的通讯就很麻烦了,">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/04/03/vuex/vuex-img-1.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/03/vuex/vuex-img-2.png">
+<meta property="og:image" content="http://yoursite.com/2019/04/03/vuex/vuex-img-3.png">
+<meta property="og:updated_time" content="2019-04-03T03:15:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vuex">
+<meta name="twitter:description" content="初步认识 你理或者不理她都在那里管理所有组件状态的贴心共享小仓库，直到有天你对她有了好奇心。   当组件之间的通信过于繁琐、耦性太强的时候使用。     举个栗子： 一个Vue的根实例下面有一个根组件名为App.vue, 它下面有两个子组件A.vue和B.vue, App.vue想要与A.vue或者B.vue通讯可以通过props传值的方式, 但是如果A.vue和B.vue之间的通讯就很麻烦了,">
+<meta name="twitter:image" content="http://yoursite.com/2019/04/03/vuex/vuex-img-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/03/vuex/">
+
+
+
+
+
+  <title>Vuex | 岁月集</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">岁月集</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            关于
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/03/vuex/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="岁月仓">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/yearsin.jpeg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="岁月集">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Vuex</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-03T11:15:40+08:00">
+                2019-04-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vue/" itemprop="url" rel="index">
+                    <span itemprop="name">Vue</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+            <span class="post-meta-divider">|</span>
+            <span class="page-pv"><i class="fa fa-eye post-meta-item-icon"></i> 阅读次数:
+            <span class="busuanzi-value" id="busuanzi_value_page_pv"></span>
+            </span>
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="初步认识"><a href="#初步认识" class="headerlink" title="初步认识"></a>初步认识</h2><blockquote>
+<p>你理或者不理她都在那里管理所有组件状态的贴心共享小仓库，直到有天你对她有了好奇心。</p>
+</blockquote>
+<blockquote>
+<p>当组件之间的通信过于繁琐、耦性太强的时候使用。  </p>
+</blockquote>
+<p> 举个栗子：<br> 一个Vue的根实例下面有一个根组件名为<strong>App.vue</strong>, 它下面有两个子组件<strong>A.vue</strong>和<strong>B.vue</strong>, <strong>App.vue</strong>想要与<strong>A.vue</strong>或者<strong>B.vue</strong>通讯可以通过props传值的方式, 但是如果A.vue和B.vue之间的通讯就很麻烦了, 他们需要共有的父组件通过自定义事件进行实现, A组件想要和B组件通讯往往是这样的：</p>
+<p><img src="/2019/04/03/vuex/vuex-img-1.png" alt></p>
+<ul>
+<li>A组件说: “报告老大, 能否帮我托个信给小弟B” =&gt; dispatch一个事件给App</li>
+<li>App老大说: “包在我身上, 它需要监听A组件的dispatch的时间, 同时需要broadcast一个事件给B组件”</li>
+<li>B小弟说: “信息已收到”, 它需要on监听App组件分发的事件</li>
+</ul>
+<h2 id="碰撞火花"><a href="#碰撞火花" class="headerlink" title="碰撞火花"></a>碰撞火花</h2><p> 1.下载 <strong>vuex</strong>: <strong>npm install vuex –save</strong><br> 2.本文demo做了抽离处理。<br> 3.(常规)在 <strong>main.js</strong> 添加:</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import Vuex from &apos;vuex&apos;</span><br><span class="line"></span><br><span class="line">Vue.use( Vuex );</span><br><span class="line"></span><br><span class="line">const store = new Vuex.Store(&#123;</span><br><span class="line">    //待添加</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">new Vue(&#123;</span><br><span class="line">    el: &apos;#app&apos;,</span><br><span class="line">    store,</span><br><span class="line">    render: h =&gt; h(App)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="地上摩擦"><a href="#地上摩擦" class="headerlink" title="地上摩擦"></a>地上摩擦</h2><p>用代码示例来讲话，我使用 <strong>vue-cli</strong> 初始化了一个demo，<strong><a href="https://github.com/Yearsin/vue-demo" target="_blank" rel="noopener">master分支</a></strong>进行下载，node.js版本8.11.3。<br><img src="/2019/04/03/vuex/vuex-img-2.png" alt><br><img src="/2019/04/03/vuex/vuex-img-3.png" alt></p>
+<ul>
+<li><p>State:<br>我把她看做是所有组件的 <strong>data</strong>，用于保存所有组件公共的数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">const state = &#123;</span><br><span class="line">    empirical: 0 // 经验值</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Getters<br><strong>store</strong> 的 <strong>computed</strong> 也就是计算属性，接受 <strong>state</strong> 作为其第一个参数，也可以接受其他 <strong>getter</strong> 作为第二个参数。<br>定义:  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const getters = &#123;</span><br><span class="line">    empirical: state =&gt; &#123;</span><br><span class="line">        return state.empirical;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>  获取:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this.$store.state.mutations.empirical</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Mutations<br>1.用于同步操作。<br>2.<strong>store</strong> 中的 <strong>methods</strong>，是改变状态的唯一方法。<br>3.该函数名官方规定叫 <strong>type</strong>，第一个参数是state，第二参数是<strong>payload</strong>，也就是自定义的参数。<br>定义:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const mutations = &#123;</span><br><span class="line">    setEmpirical (state, data) &#123;</span><br><span class="line">        state.empirical = data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>  提交:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this.$store.commit(&apos;setEmpirical&apos;, this.$store.state.mutations.empirical);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Actions<br>1.用于异步操作。<br>2.类似 <strong>mutations</strong>。<br>3.<strong>actions</strong> 提交的是 <strong>mutations</strong> 而不是直接变更状态。<br>4.<strong>actions</strong> 中的回调函数的第一个参数是 <strong>context</strong>， 是一个与 <strong>store</strong> 实例具有相同属性和方法的对象。<br>定义:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">setEmpiricalAsync: (context) =&gt; &#123;</span><br><span class="line">    setTimeout(() =&gt; &#123;</span><br><span class="line">        context.commit(&apos;setEmpirical&apos;, 10); // context提交</span><br><span class="line">    &#125;, 2000);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>  提交:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this.$store.dispatch(&apos;setEmpiricalAsync&apos;);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>Modules<br>应用复杂时，<strong>module</strong> 使 <strong>store</strong> 对象看起来不太丑陋。</p>
+<blockquote>
+<p>由于使用单一状态树，应用的所有状态会集中到一个比较大的对象。当应用变得非常复杂时，store 对象就有可能变得相当臃肿。为了解决以上问题，Vuex 允许我们将 store 分割成模块（module）。每个模块拥有自己的 state、mutation、action、getter、甚至是嵌套子模块——从上至下进行同样方式的分割。</p>
+</blockquote>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import Vue from &apos;vue&apos;;</span><br><span class="line">import Vuex from &apos;vuex&apos;;</span><br><span class="line">import actions from &apos;./actions.js&apos;;</span><br><span class="line">import mutations from &apos;./mutations.js&apos;;</span><br><span class="line"></span><br><span class="line">Vue.use(Vuex);</span><br><span class="line"></span><br><span class="line">export default new Vuex.Store(&#123;</span><br><span class="line">    modules: &#123;</span><br><span class="line">        mutations</span><br><span class="line">    &#125;,</span><br><span class="line">    actions</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Vue/" rel="tag"># Vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/28/vue-bus/" rel="next" title="Vue-bus">
+                <i class="fa fa-chevron-left"></i> Vue-bus
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/11/git-pull-push/" rel="prev" title="git pull push 总是需要输入密码">
+                git pull push 总是需要输入密码 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/yearsin.jpeg" alt="岁月仓">
+            
+              <p class="site-author-name" itemprop="name">岁月仓</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">3</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#初步认识"><span class="nav-number">1.</span> <span class="nav-text">初步认识</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#碰撞火花"><span class="nav-number">2.</span> <span class="nav-text">碰撞火花</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#地上摩擦"><span class="nav-number">3.</span> <span class="nav-text">地上摩擦</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">岁月仓</span>
+
+  
+</div>
+
+
+
+
+
+
+
+
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  
+    <span class="site-uv">
+      本站访客数
+      <span class="busuanzi-value" id="busuanzi_value_site_uv"></span>
+      人次
+    </span>
+  
+
+  
+    <span class="site-pv">
+      本站总访问量
+      <span class="busuanzi-value" id="busuanzi_value_site_pv"></span>
+      次
+    </span>
+  
+</div>
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+<script src="/live2dw/lib/L2Dwidget.min.js?0c58a1486de42ac6cc1c59c7d98ae887"></script><script>L2Dwidget.init({"log":false,"pluginJsPath":"lib/","pluginModelPath":"assets/","pluginRootPath":"live2dw/","tagMode":false});</script></body>
+</html>
