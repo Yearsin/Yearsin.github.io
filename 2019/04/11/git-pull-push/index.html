@@ -77,18 +77,18 @@
 
 
 
-<meta name="description" content="换了本后获取远程的代码一直提示要输入账号密码,很烦.经过一番查找,终于找到一个解决办法,分享之. 一行代码简单粗暴出效果 在命令行输入    1git config --global credential.helper store 代码详解这一步会在用户目录下的.gitconfig文件最后添加:   12[credential]        helper = store  pull or pus">
+<meta name="description" content="换了本后获取远程的代码一直提示要输入账号密码,很烦.经过一番查找,终于找到一个解决办法,分享之.">
 <meta name="keywords" content="Git">
 <meta property="og:type" content="article">
-<meta property="og:title" content="git pull push 总是需要输入密码">
+<meta property="og:title" content="更换电脑后获取代码需要输入密码">
 <meta property="og:url" content="http://yoursite.com/2019/04/11/git-pull-push/index.html">
 <meta property="og:site_name" content="岁月集">
-<meta property="og:description" content="换了本后获取远程的代码一直提示要输入账号密码,很烦.经过一番查找,终于找到一个解决办法,分享之. 一行代码简单粗暴出效果 在命令行输入    1git config --global credential.helper store 代码详解这一步会在用户目录下的.gitconfig文件最后添加:   12[credential]        helper = store  pull or pus">
+<meta property="og:description" content="换了本后获取远程的代码一直提示要输入账号密码,很烦.经过一番查找,终于找到一个解决办法,分享之.">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-04-11T10:32:20.426Z">
+<meta property="og:updated_time" content="2019-05-05T09:14:10.658Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="git pull push 总是需要输入密码">
-<meta name="twitter:description" content="换了本后获取远程的代码一直提示要输入账号密码,很烦.经过一番查找,终于找到一个解决办法,分享之. 一行代码简单粗暴出效果 在命令行输入    1git config --global credential.helper store 代码详解这一步会在用户目录下的.gitconfig文件最后添加:   12[credential]        helper = store  pull or pus">
+<meta name="twitter:title" content="更换电脑后获取代码需要输入密码">
+<meta name="twitter:description" content="换了本后获取远程的代码一直提示要输入账号密码,很烦.经过一番查找,终于找到一个解决办法,分享之.">
 
 
 
@@ -124,7 +124,7 @@
 
 
 
-  <title>git pull push 总是需要输入密码 | 岁月集</title>
+  <title>更换电脑后获取代码需要输入密码 | 岁月集</title>
   
 
 
@@ -278,7 +278,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">git pull push 总是需要输入密码</h1>
+          <h1 class="post-title" itemprop="name headline">更换电脑后获取代码需要输入密码</h1>
         
 
         <div class="post-meta">
@@ -355,19 +355,17 @@
       
 
       
-        <p>换了本后获取远程的代码一直提示要输入账号密码,很烦.经过一番查找,终于找到一个解决办法,分享之.</p>
-<h4 id="一行代码简单粗暴出效果"><a href="#一行代码简单粗暴出效果" class="headerlink" title="一行代码简单粗暴出效果"></a>一行代码简单粗暴出效果</h4><ul>
-<li>在命令行输入  </li>
-</ul>
+        <p>换了本后获取远程的代码一直提示要输入账号密码,很烦.经过一番查找,终于找到一个解决办法,分享之.<br><a id="more"></a></p>
+<h3 id="一行代码简单粗暴出效果"><a href="#一行代码简单粗暴出效果" class="headerlink" title="一行代码简单粗暴出效果"></a>一行代码简单粗暴出效果</h3><p>在命令行输入  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git config --global credential.helper store</span><br></pre></td></tr></table></figure>
-<h4 id="代码详解"><a href="#代码详解" class="headerlink" title="代码详解"></a>代码详解</h4><p>这一步会在用户目录下的.gitconfig文件最后添加:  </p>
+<h3 id="代码详解"><a href="#代码详解" class="headerlink" title="代码详解"></a>代码详解</h3><p>这一步会在用户目录下的.gitconfig文件最后添加:  </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[credential]</span><br><span class="line">        helper = store</span><br></pre></td></tr></table></figure>
 <ul>
 <li>pull or push 代码<br>输入账号密码后会在用户目录下生成文件.git-credential记录用户名密码的信息.<br>git config –global 命令实际上在操作用户目录(~)下的.gitconfig文件, 我们cat(检视)一下此文件(cat .gitconfig), 其内容如下:  </li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[user]</span><br><span class="line">	name = qinlicang</span><br><span class="line">	email = 18303033133@163.com</span><br><span class="line">[credential]</span><br><span class="line">	helper = store</span><br></pre></td></tr></table></figure>
 <p>以上最后一行就是添加通过命令添加进去的  </p>
-<h4 id="连带知识"><a href="#连带知识" class="headerlink" title="连带知识"></a>连带知识</h4><ul>
+<h3 id="连带知识"><a href="#连带知识" class="headerlink" title="连带知识"></a>连带知识</h3><ul>
 <li>man命令<br>  可以查看Linux中指令的说明<br>  man+（选项）+参数</li>
 <li>cat命令<br>  1.一次显示整个文件。$ cat filename<br>  2.从键盘创建一个文件。$ cat &gt; filename 只能创建新文件,不能编辑已有文件.<br>  3.将几个文件合并为一个文件： $cat file1 file2 &gt; file<br>  参数：<br>  -n 或 –number 由 1 开始对所有输出的行数编号<br>  cat -n a.txt &gt; b.txt<br>  -b 或 –number-nonblank 和 -n 相似，只不过对于空白行不编号<br>  cat -b a.txt b.txt &gt;&gt; c.txt<br>  -s 或 –squeeze-blank 当遇到有连续两行以上的空白行，就代换为一行的空白行<br>  -v 或 –show-nonprinting  </li>
 </ul>
@@ -411,8 +409,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2019/04/11/hexo-deploy_git/" rel="prev" title="hexo deploy_git">
-                hexo deploy_git <i class="fa fa-chevron-right"></i>
+              <a href="/2019/04/11/hexo-deploy_git/" rel="prev" title="hexo deploy失败">
+                hexo deploy失败 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -492,7 +490,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-count">5</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -547,7 +545,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#一行代码简单粗暴出效果"><span class="nav-number">1.</span> <span class="nav-text">一行代码简单粗暴出效果</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码详解"><span class="nav-number">2.</span> <span class="nav-text">代码详解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#连带知识"><span class="nav-number">3.</span> <span class="nav-text">连带知识</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#一行代码简单粗暴出效果"><span class="nav-number">1.</span> <span class="nav-text">一行代码简单粗暴出效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码详解"><span class="nav-number">2.</span> <span class="nav-text">代码详解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连带知识"><span class="nav-number">3.</span> <span class="nav-text">连带知识</span></a></li></ol></div>
             
 
           </div>
